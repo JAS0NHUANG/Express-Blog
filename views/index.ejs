@@ -1,0 +1,22 @@
+<!doctype html>
+
+<%- include('./partials/head') %>
+
+<html>
+
+    <div class="main">
+
+    <% posts.forEach( function(post) { %>
+        <div class="post">
+            <div class="post__title">
+                <%= post.title %>
+            </div>
+            <div class="post__content">
+                <%= post.content %>
+            </div>
+        </div>
+    <% }) %>
+
+    </div>
+
+</html>
