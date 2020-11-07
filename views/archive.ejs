@@ -1,0 +1,29 @@
+<!doctype html>
+
+<%- include('./partials/head') %>
+
+<html>
+    <%- include('./partials/header') %>
+    <% console.log(admin) %>
+
+    <div class="main">
+
+        <div class="main__card">
+
+            <table class="list__table">
+                <tbody>
+                <% posts.forEach( function(post) { %>
+                    <tr>
+                        <td><%= post.title %></td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+
+        </div>
+        
+    </div>
+
+    <%- include('./partials/footer') %>
+
+</html>

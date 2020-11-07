@@ -5,6 +5,7 @@ const Category = db.Category
 const Admin = db.Admin
 
 const postController = {
+    // index page
     index: (req, res) => {
         Post.findAll({
             include: Category
@@ -17,6 +18,7 @@ const postController = {
     editor: (req, res) => {
         res.render('editor')
     },
+    // Add post handler
     handleAdd: (req, res) => {
         const {title, content, categoryId} = req.body
         Post.create({
@@ -27,12 +29,16 @@ const postController = {
             res.redirect('/')
         })
     },
+    // Delete post handler
     handleDelete: (req, res) => {
         Admin.findOne({
             where:{
                 admin: res.locals.admin
             }
-        }).then( () => {
+        }).then( (admin) => {
+            if (!admin) {
+                return res.redirect('/')
+            }
             Post.destroy({
                 where: {
                     id: req.params.id
@@ -43,7 +49,41 @@ const postController = {
         }).catch( err => {
             return res.redirect('/admin')
         })
-    }
+    },
+    // Edit post handler
+    handleEdit: (req, res) => {
+        Admin.findOne({
+            where:{
+                admin: res.locals.admin
+            }
+        }).then( (admin) => {
+            if (!admin) {
+                return res.redirect('/')
+            }
+            Post.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then( (post) => {
+                res.render('editor', {
+                    post
+                })
+            })
+        }).catch( err => {
+            return res.redirect('/')
+        })
+    },
+    // List all post titles
+    listPostTitles: (req, res) => {
+        Post.findAll({
+            include: Category
+        }).then( posts => {
+            res.render('archive', {
+                posts
+            })
+        })
+    },
+ 
 }
 
 module.exports = postController

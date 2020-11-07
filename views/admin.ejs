@@ -3,38 +3,46 @@
 <%- include('./partials/head') %>
 
 <html>
+    <%- include('./partials/header') %>
     <% console.log(admin) %>
 
     <div class="main">
-    <% if(admin) { %>
-        
-        <a href="/editor">New Post</a>
-        <a href="/categories">Categories</a>
 
-        <table calss="post__table">
-            <thead>
-                <tr>
-                    <th>Post ID</th>
-                    <th>Title</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-        <% posts.forEach( function(post) { %>
-                <tr>
-                    <td><%= post.id %></td>
-                    <td><%= post.title %></td>
-                    <td><a href="/editor/<%= post.id %>">Edit</td>
-                    <td><a href="/delete/<%= post.id %>">Delete</td>
-                </tr>
-        <% }) %>
-            </tbody>
-        </table>
-    <% } else { %>
-        <h1>You are not ADMINATOR!!!</h1>
-        <p>Please <a href="/login">login</a>.<p>
-    <% } %>
+        <div class="main__card">
+    
+        <% if(admin) { %>
+
+            <table class="list__table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            <% posts.forEach( function(post) { %>
+                    <tr>
+                        <td><%= post.id %></td>
+                        <td><%= post.title %></td>
+                        <td><%= post.Category.categoryName %></td>
+                        <td><a class="list__table__btn" href="/editor/<%= post.id %>">Edit</td>
+                        <td><a class="list__table__btn" href="/delete/<%= post.id %>">Delete</td>
+                    </tr>
+            <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <h1>You are not ADMINATOR!!!</h1>
+            <p>Please <a href="/login">login</a>.<p>
+        <% } %>
+
+        </div>
+        
     </div>
+
+    <%- include('./partials/footer') %>
 
 </html>
