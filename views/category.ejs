@@ -1,0 +1,47 @@
+<!doctype html>
+
+<%- include('./partials/head') %>
+
+<html>
+    <%- include('./partials/header') %>
+
+    <div class="main">
+    
+        <div class="main__card">
+
+            <table class="list__table">
+                <% if(admin) { %>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <% } %>
+                <tbody>
+                <% categories.forEach( function(category) { %>
+                    <tr>
+                        <% if(admin) { %>
+                            <td><%= category.id %></td>
+                        <% } %>
+
+                        <td><%= category.categoryName %></td>
+                        
+                        <% if(admin) { %>
+                            <td><a class="list__table__btn" href="/handleEditCategory/<%= category.id %>">Edit</td>
+                            <td><a class="list__table__btn" href="/handleDeleteCategory/<%= category.id %>">Delete</td>
+                        <% } %>
+                    </tr>
+            <% }) %>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+    <%- include('./partials/footer') %>
+
+</html>

@@ -29,30 +29,26 @@ const adminController = {
                 admin
             }
         }).then( admin => {
-            console.log('ok')
             if (!admin) {
                 return next()
             }
-            console.log('here')
-            console.log(admin.admin)
-            console.log(admin.password)
-            console.log(password)
             bcrypt.compare(password, admin.password, (err, isSuccess) => {
                 console.log(isSuccess)
                 if (err || !isSuccess) {
-                    console.log('hello')
                     console.log(err)
                     return res.redirect('/')
                 }
-                console.log(admin.admin)
                 req.session.admin = admin.admin
-                console.log('admin in session' + req.session.admin)
                 res.redirect('/admin')
             })
         }).catch( err => {
             console.log(err)
             return next()
         })
+    },
+    handleLogout: (req, res) => {
+        req.session.admin = null
+        res.redirect('/')
     }
 }
 

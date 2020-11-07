@@ -4,19 +4,29 @@
 
 <html>
 
+    <%- include('./partials/header') %>
     <div class="main">
 
     <% posts.forEach( function(post) { %>
-        <div class="post">
+        <div class="main__card">
             <div class="post__title">
-                <%= post.title %>
+                <a href="/article/<%= post.id %>">
+                    <%= post.title %>
+                </a>
+            </div>
+            <div class="post__info">
+                <% const createdAtStr = post.createdAt.toString() %>
+                <%= createdAtStr.split("GMT")[0] %> / <%= post.Category.categoryName %>
             </div>
             <div class="post__content">
-                <%= post.content %>
+                <% const contentStr = post.content.toString() %>
+                <%= contentStr.split("<!--more-->")[0] %>
             </div>
         </div>
     <% }) %>
 
     </div>
+
+    <%- include('./partials/footer') %>
 
 </html>
