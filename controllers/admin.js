@@ -18,6 +18,9 @@ const adminController = {
             res.render('admin', {
                 posts
             })
+        }).catch( error => {
+            console.log(error)
+            return next()
         })
     },
     // Login page
@@ -28,6 +31,7 @@ const adminController = {
     handleLogin: (req, res, next) => {
         const {admin, password} = req.body 
         if (!admin || !password) {
+            req.flash('errorMessage', 'Please provide correct admin name and password.')
             return res.redirect('/login')
         }
         Admin.findOne({
@@ -36,18 +40,20 @@ const adminController = {
             }
         }).then( admin => {
             if (!admin) {
+                req.flash('errorMessage', 'Please provide correct admin name and password.')
                 return res.redirect('/login')
             }
             bcrypt.compare(password, admin.password, (err, isSuccess) => {
                 console.log(isSuccess)
                 if (err || !isSuccess) {
-                    console.log(err)
+                    req.flash('errorMessage', 'Please provide correct admin name and password.')
                     return res.redirect('/login')
                 }
                 req.session.admin = admin.admin
                 res.redirect('/admin')
             })
-        }).catch( err => {
+        }).catch( error => {
+            console.log(error)
             return next()
         })
     },

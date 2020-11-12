@@ -6,7 +6,7 @@
 
     <%- include('./partials/header') %>
     <div class="main">
-    
+    <div class="error__message"><%= errorMessage %></div>
     <% if (typeof posts !== 'undefined' && posts !== null) { %>
         <% posts.reverse().forEach( function(post) { %>
             <div class="main__card">

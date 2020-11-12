@@ -171,4 +171,8 @@ body {
   padding: 3px;
 }
 
+.error__message {
+  margin: 20px 0;
+}
+
 /*# sourceMappingURL=index.css.map */

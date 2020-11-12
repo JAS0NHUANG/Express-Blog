@@ -13,19 +13,28 @@ const postController = {
             res.render('index', {
                 posts
             })
+        }).catch( error => {
+            console.log(error)
+            return res.redirect('/')
         })
     },
     // Show one post 
-    showOnePost: (req, res) => {
+    showOnePost: (req, res, next) => {
         Post.findOne({
             include: Category,
             where: {
                 id: req.params.id
             }
         }).then( post => {
+            if (!post) {
+                req.flash('errorMessage', `Can not find post id:${req.params.id}`)
+                return res.redirect('/')
+            }
             res.render('index', {
                 post
             })
+        }).catch( error => {
+            return next()
         })
     },
     // Show posts of one category 
@@ -39,7 +48,10 @@ const postController = {
             res.render('index', {
                 posts
             })
+        }).catch( error => {
+            return next()
         })
+
     },
     // Editor
     editor: (req, res) => {
@@ -60,6 +72,10 @@ const postController = {
                     id: req.params.id
                 }
             }).then( (post) => {
+                if (!post) {
+                    req.flash('errorMessage', `Can not find post id:${req.params.id}`)
+                    return res.redirect('/')
+                }
                 res.render('editor', {
                     post
                 })
@@ -71,12 +87,23 @@ const postController = {
     // Add post handler
     handleAdd: (req, res) => {
         const {title, content, categoryId} = req.body
-        Post.create({
-            title,
-            content,
-            categoryId
-        }).then( () => {
-            res.redirect('/')
+        Admin.findOne({
+            where:{
+                admin: res.locals.admin
+            }
+        }).then( (admin) => {
+            if (!admin) {
+                return res.redirect('/')
+            }
+            Post.create({
+                title,
+                content,
+                categoryId
+            }).then( () => {
+                res.redirect('/')
+            }).catch( err => {
+                return res.redirect('/')
+            })
         })
     },
     // Delete post handler
@@ -132,7 +159,6 @@ const postController = {
             })
         })
     },
- 
 }
 
 module.exports = postController
