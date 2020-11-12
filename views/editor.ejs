@@ -16,9 +16,9 @@
                 <% if (typeof post !== 'undefined' && post !== null) { %>
                 <% postTitle = post.title %>
                 <% postContent = post.content %>
-                    <form class="editor__form" method="post" action="/handleEdit">
+                    <form class="editor__form" method="post" action="/handle-edit/<%= post.id %>">
                 <% } else { %>
-                    <form class="editor__form" method="post" action="/handleAdd">
+                    <form class="editor__form" method="post" action="/handle-add">
                 <% } %>
                 
                         <label class="editor__title-label">Title: </label>

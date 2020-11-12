@@ -14,7 +14,15 @@
                 <tbody>
                 <% posts.forEach( function(post) { %>
                     <tr>
-                        <td><%= post.title %></td>
+                        <td>
+                            <a href="/post/<%= post.id %>">
+                                <%= post.title %>
+                            </a>
+                        </td>
+                        <td>
+                            <% const createdAtStr = post.createdAt.toString() %>
+                            <%= createdAtStr.split("GMT")[0] %> / <%= post.Category.categoryName %>
+                        </td>
                     </tr>
                 <% }) %>
                 </tbody>
