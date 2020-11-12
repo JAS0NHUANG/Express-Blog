@@ -15,15 +15,14 @@
 
         <nav class="header_admin nav">
             <ul>
-                <% if (!admin) { %>
-                    <a href="/login"><li>LOG IN</li></a>
-                <% } %>
-
-                <% if (admin) { %>
+                <% if (typeof admin !== 'undefined' && admin !== null) { %>
                     <a href="/admin"><li>ADMIN</li></a>
                     <a href="/editor"><li>NEW POST</li></a>
                     <a href="/logout"><li>LOG OUT</li></a>
+                <% } else { %>
+                    <a href="/login"><li>LOG IN</li></a>
                 <% } %>
+
             </ul>
         </nav>
     </div>

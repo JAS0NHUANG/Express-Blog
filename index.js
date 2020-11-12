@@ -1,58 +1,38 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const session = require('express-session')
-const flash = require('connect-flash')
-const path = require('path')
+// npm modules
+require('dotenv').config()
 
-const app = express()
-const port = 777
+const express =     require('express')
+const bodyParser =  require('body-parser')
+const session =     require('express-session')
+const flash =       require('connect-flash')
 
-const postController = require('./controllers/post')
-const adminController = require('./controllers/admin')
-const categoryController = require('./controllers/category')
+// global variables
+const app =         express()
+const port =        777
+const routes =      require('./routes')
 
+// set
 app.set('view engine', 'ejs')
 
-app.use('/public', express.static('public'))
+// use
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(flash())
 app.use(session({
-    secret: 'keyboard cat',
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true
 }))
-
 app.use((req, res, next) => {
     res.locals.admin = req.session.admin
+    res.locals.errorMessage = req.flash('errorMessage')
     next()
 })
+app.use(express.static(__dirname + '/public'))
+app.use('/', routes)
 
-app.get('/public/css/index.css', (req, res) => {
-    res.send('/public/css/index.css')
-    res.end()
-})
-
-app.get('/', postController.index)
-app.get('/login', adminController.loginPage)
-app.get('/logout', adminController.handleLogout)
-app.get('/admin', adminController.adminPage)
-app.get('/editor', postController.editor)
-app.get('/editor/:id', postController.handleEdit)
-app.get('/delete/:id', postController.handleDelete)
-app.get('/category', categoryController.listCategory)
-app.get('/archive', postController.listPostTitles)
-// app.get('/category/:id', categoryController.showCategoryPosts)
-
-app.post('/handleAdd', postController.handleAdd)
-// app.post('/handleEdit/:id', postController.handleEdit)
-app.post('/handleLogin', adminController.handleLogin)
-app.post('/handleAddCategory', categoryController.handleAddCategory)
-// app.post('/handleEditCategory/:id', categoryController.handleEditCategory)
-
-app.get('/about', (req, res) => {
-    res.render('about')
-})
-
+// Listen
 app.listen(port, () => {
     console.log('Running')
+    console.log(process.env.SECRET)
 })

@@ -5,7 +5,7 @@ const Category = db.Category
 const Admin = db.Admin
 
 const postController = {
-    // index page
+    // Index page
     index: (req, res) => {
         Post.findAll({
             include: Category
@@ -15,8 +15,58 @@ const postController = {
             })
         })
     },
+    // Show one post 
+    showOnePost: (req, res) => {
+        Post.findOne({
+            include: Category,
+            where: {
+                id: req.params.id
+            }
+        }).then( post => {
+            res.render('index', {
+                post
+            })
+        })
+    },
+    // Show posts of one category 
+    showCategoryPosts: (req, res) => {
+        Post.findAll({
+            include: Category,
+            where: {
+                CategoryId: req.params.id
+            }
+        }).then( posts => {
+            res.render('index', {
+                posts
+            })
+        })
+    },
+    // Editor
     editor: (req, res) => {
         res.render('editor')
+    },
+    // Editor for a single post
+    postEditor: (req, res) => {
+        Admin.findOne({
+            where:{
+                admin: res.locals.admin
+            }
+        }).then( (admin) => {
+            if (!admin) {
+                return res.redirect('/')
+            }
+            Post.findOne({
+                where: {
+                    id: req.params.id
+                }
+            }).then( (post) => {
+                res.render('editor', {
+                    post
+                })
+            })
+        }).catch( err => {
+            return res.redirect('/')
+        })
     },
     // Add post handler
     handleAdd: (req, res) => {
@@ -50,7 +100,7 @@ const postController = {
             return res.redirect('/admin')
         })
     },
-    // Edit post handler
+    // Single post edit handler
     handleEdit: (req, res) => {
         Admin.findOne({
             where:{
@@ -60,14 +110,13 @@ const postController = {
             if (!admin) {
                 return res.redirect('/')
             }
-            Post.findOne({
+            const {title, content, categoryId} = req.body
+            Post.update({title, content, categoryId}, {
                 where: {
                     id: req.params.id
                 }
-            }).then( (post) => {
-                res.render('editor', {
-                    post
-                })
+            }).then( () => {
+                res.redirect('/')
             })
         }).catch( err => {
             return res.redirect('/')

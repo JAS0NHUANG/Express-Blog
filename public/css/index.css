@@ -49,7 +49,7 @@ body {
   background: url("../img/JH.png") center/contain no-repeat;
 }
 .header_wrapper {
-  width: 80%;
+  width: 75%;
   height: 58px;
   max-width: 1280px;
   display: flex;
