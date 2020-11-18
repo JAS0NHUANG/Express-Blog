@@ -4,8 +4,8 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
-   static associate(models) {
-        Post.belongsTo(models.Category)
+    static associate(models) {
+      Post.belongsTo(models.Category)
     }
   };
   Post.init({

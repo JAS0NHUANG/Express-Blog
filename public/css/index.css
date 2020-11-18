@@ -172,7 +172,10 @@ body {
 }
 
 .error__message {
-  margin: 20px 0;
+  margin: 20px auto;
+  color: #fff;
+  padding: 15px;
+  width: 75%;
 }
 
 /*# sourceMappingURL=index.css.map */

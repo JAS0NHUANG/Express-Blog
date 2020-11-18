@@ -1,38 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <%- include('./partials/head') %>
 <html>
-    <%- include('./partials/header') %>
-    <body>
-    <div class="main">
-        <div class="main__card">
-        <% if(admin) { %>
-            <table class="list__table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                <% posts.forEach( function(post) { %>
-                    <tr>
-                        <td><%= post.id %></td>
-                        <td><%= post.title %></td>
-                        <td><%= post.Category.categoryName %></td>
-                        <td><a class="list__table__btn" href="/editor/<%= post.id %>">Edit</td>
-                        <td><a class="list__table__btn" href="/delete/<%= post.id %>">Delete</td>
-                    </tr>
-                <% }) %>
-                </tbody>
-            </table>
-        <% } else { %>
-            <p>Please <a href="/login">login</a>.<p>
-        <% } %>
-        </div>
+  <%- include('./partials/header') %>
+  <body>
+  <div class="main">
+    <div class="main__card">
+      <table class="list__table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <% posts.forEach( function(post) { %>
+          <tr>
+            <td><%= post.id %></td>
+            <td><%= post.title %></td>
+            <td><%= post.Category.categoryName %></td>
+            <td><a class="list__table__btn" href="/editor/<%= post.id %>">Edit</td>
+            <td><a class="list__table__btn" href="/delete/<%= post.id %>">Delete</td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>
     </div>
-    <%- include('./partials/footer') %>
-    </body>
+  </div>
+  <%- include('./partials/footer') %>
+  </body>
 </html>
